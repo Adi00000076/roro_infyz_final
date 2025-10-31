@@ -46,8 +46,11 @@ const SidebarComponent = () => {
     <Box
       sx={{
         height: "100vh",
+        display: "flex",
         "& .ps-sidebar-container": {
           background: `${colors.primary[400]} !important`,
+          height: "100vh",
+          overflowY: "auto",
         },
       }}
     >
@@ -55,9 +58,19 @@ const SidebarComponent = () => {
         <Menu
           menuItemStyles={{
             button: ({ active }) => ({
-              backgroundColor: "transparent",
-              color: active ? "#6870fa" : colors.grey[100],
-              padding: "5px 35px 5px 20px",
+              backgroundColor: active ? colors.primary[500] : "transparent",
+              color: active ? "#ffffff" : colors.grey[100],
+              padding: "8px 35px 8px 20px",
+              borderRadius: "4px",
+              margin: "2px 8px",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                backgroundColor: active
+                  ? colors.primary[600]
+                  : colors.primary[300],
+                color: "#ffffff",
+                transform: "translateX(2px)",
+              },
             }),
           }}
         >
@@ -125,7 +138,7 @@ const SidebarComponent = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Data
+              Commercial
             </Typography>
             {/* Manage Team */}
             <Item
@@ -170,7 +183,6 @@ const SidebarComponent = () => {
               setSelected={setSelected}
             />
             {/* login page */}
-
             <Item
               title="Loginpage"
               to="/Loginpage"
@@ -180,7 +192,7 @@ const SidebarComponent = () => {
             />
             {/* Invoices */}
             <Item
-              title="Invoices / Balances"
+              title="Invoices "
               to="/invoices"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
