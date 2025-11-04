@@ -97,7 +97,7 @@ const Loginpage = () => {
             ease: "linear",
           }}
         >
-          Wallenius Wilhelmsen
+          INFYZ SOLUTION
         </motion.h1>
         <Typography variant="h6" sx={{ opacity: 0.9 }}>
           Delivering Sustainable Logistics

@@ -43,6 +43,7 @@
     "react-icons": "^5.5.0",
     "react-pro-sidebar": "1.1.0",
     "react-router-dom": "6.30.1",
+    "react-scroll-up": "^1.4.0",
     "react-toastify": "^11.0.5",
     "react-tsparticles": "^2.12.2",
     "tsparticles": "^3.9.1",

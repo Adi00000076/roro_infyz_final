@@ -1,26 +1,18 @@
-import { Routes, Route } from "react-router-dom";
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import Dashboard from "./scenes/dashboard";
-import Team from "./scenes/team";
-
-import Custmer from "./roro/components/Custmer/Custmer";
-import Comercial from "./roro/components/Comercial/Comercial";
-import ContractRegistrationList from "./roro/components/Comercial/ContractRegistrationList/ContractRegistrationList";
-import CustmerRegistration from "./roro/components/Comercial/CustmerRegistration/CustmerRegistration";
-import TariffGeneral from "./roro/components/Comercial/TariffGeneral/TariffGeneral";
 
 import Loginpage from "./Authentication/Login/Loginpage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { HelmetProvider } from "react-helmet-async";
-
-import Service from "./ADM/MA/Service/Service";
-import Admin from "./ADM/MA/Admin";
+import Navigation from "./Navigation";
+import ErrorBoundary from "./__api__/ErroBoundery.jsx";
+import ScrollToTop from "react-scroll-up";
+import { FaChevronUp } from "react-icons/fa";
 
 const AppContent = () => {
   const [theme, colorMode] = useMode();
@@ -46,25 +38,7 @@ const AppContent = () => {
           <main className="content">
             <Topbar />
             <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/team" element={<Team />} />
-                <Route path="/Custmer" element={<Custmer />} />
-                <Route path="/Comercial" element={<Comercial />} />
-                <Route
-                  path="/ContractRegistrationList"
-                  element={<ContractRegistrationList />}
-                />
-                <Route
-                  path="/CustmerRegistration"
-                  element={<CustmerRegistration />}
-                />
-                <Route path="/TariffGeneral" element={<TariffGeneral />} />
-                {/* MAAD */}
-                <Route path="/roro/MD" element={<Admin />} />
-
-                <Route path="/roro/MD/Service" element={<Service />} />
-              </Routes>
+              <Navigation />
             </div>
           </main>
         </div>
@@ -75,12 +49,40 @@ const AppContent = () => {
 
 function App() {
   return (
-    <HelmetProvider>
-      <AuthProvider>
-        <AppContent />
-        <ToastContainer />
-      </AuthProvider>
-    </HelmetProvider>
+    <ErrorBoundary>
+      <HelmetProvider>
+        <AuthProvider>
+          <AppContent />
+          <ToastContainer />
+          <ScrollToTop
+            showUnder={160}
+            style={{
+              position: "fixed",
+              bottom: 50,
+              right: 50,
+              cursor: "pointer",
+              zIndex: 1000,
+            }}
+          >
+            <div
+              style={{
+                backgroundColor: "#1976d2",
+                color: "white",
+                padding: "10px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+              }}
+            >
+              <FaChevronUp size={20} />
+            </div>
+          </ScrollToTop>
+        </AuthProvider>
+      </HelmetProvider>
+    </ErrorBoundary>
   );
 }
 

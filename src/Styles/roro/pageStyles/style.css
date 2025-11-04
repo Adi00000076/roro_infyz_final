@@ -1,11 +1,21 @@
 .sidebar-container {
   height: 100vh;
-  display: flex;
+  display: flex; font-family: 'Inter var', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  color: rgb(29, 38, 48);
+  font-size: 16px;
+  line-height: 22px;
 }
 
 .sidebar-container .ps-sidebar-container {
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: auto; font-family: 'Inter var', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  color: rgb(29, 38, 48);
+  font-size: 16px;
+  line-height: 22px;
 }
 
 .ps-menu-button {
