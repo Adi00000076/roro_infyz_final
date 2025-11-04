@@ -1,0 +1,50 @@
+.sidebar-container {
+  height: 100vh;
+  display: flex;
+}
+
+.sidebar-container .ps-sidebar-container {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.ps-menu-button {
+  padding: 8px 35px 8px 20px;
+  border-radius: 4px;
+  margin: 2px 8px;
+  transition: all 0.2s ease-in-out;
+  outline: none;
+}
+
+.ps-menu-button:hover {
+  transform: translateX(2px);
+}
+
+.ps-menu-button:focus {
+  box-shadow: 0 0 0 2px #6870fa;
+}
+
+.ps-menu-button:focus-visible {
+  box-shadow: 0 0 0 2px #6870fa;
+  outline: 2px solid #868dfb;
+  outline-offset: 2px;
+}
+
+.ps-menu-button:target {
+  box-shadow: 0 0 0 2px #db4f78;
+}
+
+.ps-menu-button--active {
+}
+
+.ps-menu-button--active:hover {
+}
+
+.ps-menu-button--active:focus {
+}
+
+.ps-menu-button--active:focus-visible {
+}
+
+.ps-menu-button--active:target {
+}

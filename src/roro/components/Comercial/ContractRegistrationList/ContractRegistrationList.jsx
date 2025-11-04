@@ -16,6 +16,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import { apiClient } from "../../../../__api__/Config.js";
 import { motion } from "framer-motion";
+import { Description as DescriptionIcon } from "@mui/icons-material";
 import {
   Search as SearchIcon,
   AddCircleOutline as AddIcon,
@@ -25,123 +26,144 @@ import {
 } from "@mui/icons-material";
 
 const ContractRegistrationList = () => {
-  const [data, setData] = useState([]);
-  const [columns, setColumns] = useState([]);
+  const [rawData, setRawData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  const [columns, setColumns] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
   const theme = useTheme();
 
+  /* --------------------------------------------------------------
+     1. FETCH DATA + BUILD DYNAMIC COLUMNS
+     -------------------------------------------------------------- */
   useEffect(() => {
     const fetchBookingList = async () => {
       try {
-        const response = await apiClient.get("/api/bookingList");
-        if (Array.isArray(response.data) && response.data.length > 0) {
-          const backendData = response.data;
-          const dynamicColumns = Object.keys(backendData[0]).map((key) => ({
-            field: key,
-            headerName: key
-              .replace(/([A-Z])/g, " $1")
-              .replace(/^./, (s) => s.toUpperCase()),
-            width: 180,
-            sortable: true,
-          }));
+        const { data } = await apiClient.get("/api/bookingList");
 
-          setColumns(dynamicColumns);
-          setData(backendData);
-          setFilteredData(backendData);
-        } else {
+        if (!Array.isArray(data) || data.length === 0) {
           throw new Error("Empty or invalid data from backend");
         }
+
+        const firstRow = data[0];
+        const dynCols = Object.keys(firstRow).map((key) => ({
+          key: key, // React key
+          field: key,
+          headerName: key
+            .replace(/([A-Z])/g, " $1")
+            .replace(/^./, (s) => s.toUpperCase()),
+          flex: 1,
+          minWidth: 150,
+          sortable: true,
+        }));
+
+        setColumns(dynCols);
+        setRawData(data);
+        setFilteredData(data);
       } catch (err) {
         setError("Failed to fetch booking list");
-        console.error("Error fetching booking list:", err);
+        console.error("API Error:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchBookingList();
   }, []);
 
+  /* --------------------------------------------------------------
+     2. SEARCH FILTER (client-side)
+     -------------------------------------------------------------- */
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchQuery(value);
-    if (!value) return setFilteredData(data);
-    const filtered = data.filter((row) =>
+
+    if (!value) {
+      setFilteredData(rawData);
+      return;
+    }
+
+    const filtered = rawData.filter((row) =>
       Object.values(row).some(
-        (val) => val && val.toString().toLowerCase().includes(value)
+        (v) => v != null && v.toString().toLowerCase().includes(value)
       )
     );
     setFilteredData(filtered);
   };
 
+  /* --------------------------------------------------------------
+     3. DRAWER TOGGLE
+     -------------------------------------------------------------- */
   const toggleDrawer = (open) => () => setDrawerOpen(open);
 
-  if (loading)
+  /* --------------------------------------------------------------
+     4. LOADING / ERROR STATES
+     -------------------------------------------------------------- */
+  if (loading) {
     return (
       <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
       >
         <CircularProgress />
       </Box>
     );
+  }
 
-  if (error)
+  if (error) {
     return (
       <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
       >
         <Typography color="error">{error}</Typography>
       </Box>
     );
+  }
 
+  /* --------------------------------------------------------------
+     5. MAIN RENDER
+     -------------------------------------------------------------- */
   return (
     <Box
       sx={{
         height: "100vh",
         display: "flex",
         flexDirection: "column",
-        overflow: "hidden",
         bgcolor: "#f7f9fc",
       }}
     >
-      {/* 🔷 Clean Gradient AppBar */}
+      {/* ---------- APPBAR (Full Primary Color) ---------- */}
       <AppBar
         position="static"
-        elevation={2}
-        sx={{
-          background: "linear-gradient(90deg, #1976d2, #42a5f5)",
-        }}
+        elevation={3}
+        sx={{ bgcolor: theme.palette.primary.main }}
       >
         <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            px: 3,
-          }}
+          sx={{ display: "flex", justifyContent: "space-between", px: 3 }}
         >
           <Typography
-            variant="h6"
+            variant="h4"
             sx={{
               fontWeight: 600,
               flexGrow: 1,
-              textAlign: "center",
+              textAlign: "start",
             }}
           >
             Contract Registration
           </Typography>
 
-          {/* Search + Add */}
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box display="flex" alignItems="center" gap={3}>
             <TextField
               size="small"
               placeholder="Search..."
@@ -150,17 +172,21 @@ const ContractRegistrationList = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#1565c0" }} />
+                    <SearchIcon sx={{ color: "#fff" }} />
                   </InputAdornment>
                 ),
               }}
               sx={{
-                bgcolor: "white",
-             
-                width: 240,
+                width: 260,
+                bgcolor: "rgba(255,255,255,0.15)",
                 "& .MuiOutlinedInput-root": {
-               
-                  "& fieldset": { border: "none" },
+                  "& fieldset": { borderColor: "rgba(255,255,255,0.5)" },
+                  "&:hover fieldset": { borderColor: "#fff" },
+                },
+                "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.7)" },
+                "& .MuiInputBase-input::placeholder": {
+                  color: "rgba(255,255,255,0.7)",
+                  opacity: 1,
                 },
               }}
             />
@@ -168,11 +194,10 @@ const ContractRegistrationList = () => {
               startIcon={<AddIcon />}
               onClick={toggleDrawer(true)}
               sx={{
-                bgcolor: "white",
-                color: "#1565c0",
+                bgcolor: "#fff",
+                color: theme.palette.primary.main,
                 fontWeight: 600,
                 textTransform: "none",
-            
                 px: 2.5,
                 "&:hover": { bgcolor: "#e3f2fd" },
               }}
@@ -183,60 +208,68 @@ const ContractRegistrationList = () => {
         </Toolbar>
       </AppBar>
 
-      {/* 🔹 DataGrid Section */}
-      <Box sx={{ flexGrow: 1, p: 2, overflow: "hidden" }}>
+      {/* ---------- DATAGRID (Black Header, No Page Scroll) ---------- */}
+      <Box sx={{ flexGrow: 1, p: 2 }}>
         <Box
           sx={{
             height: "100%",
-    
+            bgcolor: "#fff",
+            borderRadius: 1,
+            overflow: "hidden",
             boxShadow: 1,
-            bgcolor: "white",
-            overflow: "hidden", // ⛔ no outside scroll
           }}
         >
           <DataGrid
             rows={filteredData}
             columns={columns}
-            pageSize={10}
-            rowsPerPageOptions={[10, 25, 50]}
+            getRowId={(row) => {
+              const id =
+                row.id ||
+                row.lineItemId ||
+                row.bookingRefNumber ||
+                row.contractNumber ||
+                row.cargoId ||
+                `${row.contractNumber || "row"}-${Date.now()}-${Math.random()}`;
+              return String(id);
+            }}
+            pageSizeOptions={[10, 25, 50]}
+            initialState={{ pagination: { paginationModel: { pageSize: 10 } } }}
             checkboxSelection
-            disableSelectionOnClick
-            getRowId={(row) =>
-              row.id ||
-              row.lineItemId ||
-              row.bookingRefNumber ||
-              row.contractNumber ||
-              row.cargoId ||
-              `${Math.random()}-${Date.now()}`
-            }
+            disableRowSelectionOnClick
             sx={{
               border: "none",
+              // BLACK COLUMN HEADER
               "& .MuiDataGrid-columnHeaders": {
-                background: "linear-gradient(90deg, #1976d2, #42a5f5)",
-                color: "white",
+                backgroundColor: "#000", // Black background
+
                 fontWeight: "bold",
+                fontSize: "0.95rem",
+                borderBottom: "2px solid #444",
+              },
+              "& .MuiDataGrid-cell": {
+                color: "#1a1a1a",
                 fontSize: "0.9rem",
               },
               "& .MuiDataGrid-row:hover": {
-                backgroundColor: "#f1f8ff",
+                backgroundColor: "#e3f2fd",
               },
-              "& .MuiDataGrid-virtualScroller": {
-                overflowX: "auto !important",
-                overflowY: "auto !important",
+              "& .MuiDataGrid-footerContainer": {
+                backgroundColor: "#f5f5f5",
+                color: "#333",
               },
             }}
           />
         </Box>
       </Box>
 
-      {/* 🧾 Drawer for New/Edit */}
+      {/* ---------- DRAWER (New Contract Form) ---------- */}
       <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={toggleDrawer(false)}
         PaperProps={{
           sx: {
-            width: { xs: "100%", sm: 420 },
+            width: { xs: "100%", sm: 440 },
             p: 3,
             bgcolor: "#f4f8fb",
           },
@@ -245,6 +278,7 @@ const ContractRegistrationList = () => {
         <motion.div
           initial={{ x: 100, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 120 }}
         >
           <Box
             display="flex"
@@ -252,7 +286,11 @@ const ContractRegistrationList = () => {
             alignItems="center"
             mb={2}
           >
-            <Typography variant="h6" fontWeight="bold" color="#1565c0">
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              color={theme.palette.primary.main}
+            >
               New Contract
             </Typography>
             <IconButton onClick={toggleDrawer(false)}>
@@ -261,7 +299,6 @@ const ContractRegistrationList = () => {
           </Box>
           <Divider sx={{ mb: 2 }} />
 
-          {/* Form Fields */}
           {["Contract Number", "Customer Name", "Booking Date", "Status"].map(
             (label, idx) => (
               <TextField
@@ -272,25 +309,19 @@ const ContractRegistrationList = () => {
                 InputLabelProps={
                   label === "Booking Date" ? { shrink: true } : {}
                 }
-                sx={{
-                  mb: 2,
-                  background: "white",
-   
-                }}
+                sx={{ mb: 2, bgcolor: "#fff" }}
               />
             )
           )}
 
-          <Box display="flex" justifyContent="flex-end" gap={2} mt={2}>
+          <Box display="flex" justifyContent="flex-end" gap={2} mt={3}>
             <Button
               variant="contained"
               startIcon={<SaveIcon />}
               sx={{
-                bgcolor: "#1565c0",
-                color: "white",
+                bgcolor: theme.palette.primary.main,
+                "&:hover": { bgcolor: theme.palette.primary.dark },
                 textTransform: "none",
-               
-                "&:hover": { bgcolor: "#0d47a1" },
               }}
             >
               Save
@@ -300,10 +331,7 @@ const ContractRegistrationList = () => {
               color="error"
               startIcon={<CancelIcon />}
               onClick={toggleDrawer(false)}
-              sx={{
-                borderRadius: 1,
-                textTransform: "none",
-              }}
+              sx={{ textTransform: "none" }}
             >
               Cancel
             </Button>

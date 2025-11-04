@@ -7,7 +7,6 @@ import Sidebar from "./scenes/global/Sidebar";
 import Dashboard from "./scenes/dashboard";
 import Team from "./scenes/team";
 
-
 import Custmer from "./roro/components/Custmer/Custmer";
 import Comercial from "./roro/components/Comercial/Comercial";
 import ContractRegistrationList from "./roro/components/Comercial/ContractRegistrationList/ContractRegistrationList";
@@ -15,6 +14,13 @@ import CustmerRegistration from "./roro/components/Comercial/CustmerRegistration
 import TariffGeneral from "./roro/components/Comercial/TariffGeneral/TariffGeneral";
 
 import Loginpage from "./Authentication/Login/Loginpage";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { HelmetProvider } from "react-helmet-async";
+
+import Service from "./ADM/MA/Service/Service";
+import Admin from "./ADM/MA/Admin";
 
 const AppContent = () => {
   const [theme, colorMode] = useMode();
@@ -39,22 +45,27 @@ const AppContent = () => {
           <Sidebar />
           <main className="content">
             <Topbar />
-            <Routes>
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/Custmer" element={<Custmer />} />
-              <Route path="/Comercial" element={<Comercial />} />
-              <Route
-                path="/ContractRegistrationList"
-                element={<ContractRegistrationList />}
-              />
-              <Route
-                path="/CustmerRegistration"
-                element={<CustmerRegistration />}
-              />
-              <Route path="/TariffGeneral" element={<TariffGeneral />} />
-            
-            </Routes>
+            <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
+              <Routes>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/Custmer" element={<Custmer />} />
+                <Route path="/Comercial" element={<Comercial />} />
+                <Route
+                  path="/ContractRegistrationList"
+                  element={<ContractRegistrationList />}
+                />
+                <Route
+                  path="/CustmerRegistration"
+                  element={<CustmerRegistration />}
+                />
+                <Route path="/TariffGeneral" element={<TariffGeneral />} />
+                {/* MAAD */}
+                <Route path="/roro/MD" element={<Admin />} />
+
+                <Route path="/roro/MD/Service" element={<Service />} />
+              </Routes>
+            </div>
           </main>
         </div>
       </ThemeProvider>
@@ -64,9 +75,12 @@ const AppContent = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <HelmetProvider>
+      <AuthProvider>
+        <AppContent />
+        <ToastContainer />
+      </AuthProvider>
+    </HelmetProvider>
   );
 }
 
