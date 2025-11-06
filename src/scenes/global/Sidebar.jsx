@@ -3,6 +3,7 @@ import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import { tokens } from "../../theme";
+import { useSettings } from "../../context/SettingsContext";
 import "../../Styles/roro/pageStyles/style.css";
 
 // === React Icons ===
@@ -42,6 +43,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const SidebarComponent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { settings } = useSettings();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
@@ -78,7 +80,7 @@ const SidebarComponent = () => {
           </MenuItem>
 
           {/* User Logo */}
-          {!isCollapsed && (
+          {!isCollapsed && settings.sidebarCaption === "caption" && (
             <Box mb="25px">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img

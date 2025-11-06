@@ -11,6 +11,7 @@ logConfig();
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter
+      basename="/RORO"
       future={{
         v7_startTransition: true,
         v7_relativeSplatPath: true,

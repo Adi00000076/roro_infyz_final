@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import axiosInstance from "../__api__/axiosInstance";
 
 const AuthContext = createContext();
 
@@ -10,30 +11,49 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
-  // Check for existing session on app load (e.g., from localStorage)
+  // Check for existing session on app load (e.g., from sessionStorage)
   useEffect(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated");
-    if (storedAuth === "true") {
-      setIsAuthenticated(true);
-      // Optionally load user data
+    const storedAuth = sessionStorage.getItem("auth");
+    if (storedAuth) {
+      try {
+        const { token, user: storedUser } = JSON.parse(storedAuth);
+        if (token) {
+          setIsAuthenticated(true);
+          setUser(storedUser || null);
+        }
+      } catch (e) {
+        console.error("Error parsing auth from sessionStorage:", e);
+      }
     }
   }, []);
 
-  const login = (email, password) => {
-    // Simple validation for demo purposes
-    if (email === "admin@example.com" && password === "password") {
-      setIsAuthenticated(true);
-      setUser({ email });
-      localStorage.setItem("isAuthenticated", "true");
-      return true;
+  const login = async (username, password) => {
+    try {
+      const response = await axiosInstance.post("/auth/login", {
+        username,
+        password,
+      });
+      const { token, user: responseUser } = response.data;
+      if (token) {
+        sessionStorage.setItem(
+          "auth",
+          JSON.stringify({ token, user: responseUser })
+        );
+        setIsAuthenticated(true);
+        setUser(responseUser || { username });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Login error:", error);
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem("isAuthenticated");
+    sessionStorage.removeItem("auth");
   };
 
   const value = {

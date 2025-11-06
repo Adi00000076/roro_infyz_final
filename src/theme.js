@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from "react";
+import { createContext, useState, useMemo, useEffect } from "react";
 import { createTheme } from "@mui/material/styles";
 
 export const tokens = (mode) => ({
@@ -120,70 +120,58 @@ export const tokens = (mode) => ({
 });
 
 // mui theme settings
-export const themeSettings = (mode) => {
+export const themeSettings = (mode, settings = {}) => {
   const colors = tokens(mode);
+  // Commented out primary color customization to fix undefined primary error
+  // const primaryMain =
+  //   settings.primaryColor === "theme1"
+  //     ? "#2196f3"
+  //     : settings.primaryColor === "theme2"
+  //     ? "#4caf50"
+  //     : colors.primary[mode === "dark" ? 500 : 100];
   return {
     palette: {
       mode: mode,
-      ...(mode === "dark"
-        ? {
-            primary: {
-              main: colors.primary[500],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.grey[700],
-              main: colors.grey[500],
-              light: colors.grey[100],
-            },
-            background: {
-              default: colors.primary[500],
-            },
-          }
-        : {
-            primary: {
-              main: colors.primary[100],
-            },
-            secondary: {
-              main: colors.greenAccent[500],
-            },
-            neutral: {
-              dark: colors.grey[700],
-              main: colors.grey[500],
-              light: colors.grey[100],
-            },
-            background: {
-              default: "#fcfcfc",
-            },
-          }),
+      primary: {
+        main: colors.primary[mode === "dark" ? 500 : 100],
+      },
+      secondary: {
+        main: colors.greenAccent[500],
+      },
+      neutral: {
+        dark: colors.grey[700],
+        main: colors.grey[500],
+        light: colors.grey[100],
+      },
+      background: {
+        default: mode === "dark" ? colors.primary[500] : "#fcfcfc",
+      },
     },
     typography: {
-      fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+      fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
       fontSize: 12,
       h1: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 40,
       },
       h2: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 32,
       },
       h3: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 24,
       },
       h4: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 20,
       },
       h5: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 16,
       },
       h6: {
-        fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
+        fontFamily: [settings.fontFamily || "Inter", "sans-serif"].join(","),
         fontSize: 14,
       },
     },
@@ -195,8 +183,14 @@ export const ColorModeContext = createContext({
   toggleColorMode: () => {},
 });
 
-export const useMode = () => {
-  const [mode, setMode] = useState("light");
+export const useMode = (settings = {}) => {
+  const [mode, setMode] = useState(settings.themeMode || "light");
+
+  useEffect(() => {
+    if (settings.themeMode) {
+      setMode(settings.themeMode);
+    }
+  }, [settings.themeMode]);
 
   const colorMode = useMemo(
     () => ({
@@ -206,7 +200,10 @@ export const useMode = () => {
     []
   );
 
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const theme = useMemo(
+    () => createTheme(themeSettings(mode, settings)),
+    [mode, settings]
+  );
 
   return [theme, colorMode];
 };

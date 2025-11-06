@@ -1,6 +1,7 @@
 import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 
@@ -15,7 +16,8 @@ import ScrollToTop from "react-scroll-up";
 import { FaChevronUp } from "react-icons/fa";
 
 const AppContent = () => {
-  const [theme, colorMode] = useMode();
+  const { settings } = useSettings();
+  const [theme, colorMode] = useMode(settings || {});
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {
@@ -33,9 +35,15 @@ const AppContent = () => {
     <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <div className="app">
+        <div className="app" dir={settings.direction}>
           <Sidebar />
-          <main className="content">
+          <main
+            className="content"
+            style={{
+              width: settings.layoutWidth === "fluid" ? "100%" : "1200px",
+              margin: settings.layoutWidth === "fluid" ? "0" : "0 auto",
+            }}
+          >
             <Topbar />
             <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
               <Navigation />
@@ -52,34 +60,36 @@ function App() {
     <ErrorBoundary>
       <HelmetProvider>
         <AuthProvider>
-          <AppContent />
-          <ToastContainer />
-          <ScrollToTop
-            showUnder={160}
-            style={{
-              position: "fixed",
-              bottom: 50,
-              right: 50,
-              cursor: "pointer",
-              zIndex: 1000,
-            }}
-          >
-            <div
+          <SettingsProvider>
+            <AppContent />
+            <ToastContainer />
+            <ScrollToTop
+              showUnder={160}
               style={{
-                backgroundColor: "#1976d2",
-                color: "white",
-                padding: "10px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "40px",
-                height: "40px",
+                position: "fixed",
+                bottom: 50,
+                right: 50,
+                cursor: "pointer",
+                zIndex: 1000,
               }}
             >
-              <FaChevronUp size={20} />
-            </div>
-          </ScrollToTop>
+              <div
+                style={{
+                  backgroundColor: "#1976d2",
+                  color: "white",
+                  padding: "10px",
+                  borderRadius: "50%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "40px",
+                  height: "40px",
+                }}
+              >
+                <FaChevronUp size={20} />
+              </div>
+            </ScrollToTop>
+          </SettingsProvider>
         </AuthProvider>
       </HelmetProvider>
     </ErrorBoundary>
