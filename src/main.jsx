@@ -3,7 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
-import { logConfig } from "./__api__/Config.js";
+import { logConfig } from "./roro_api/roroApiConfig.js";
 
 // Log the configuration on app start
 logConfig();

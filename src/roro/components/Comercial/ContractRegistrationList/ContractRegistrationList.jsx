@@ -14,8 +14,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { apiClient } from "../../../../__api__/Config.js";
-import { motion } from "framer-motion";
+import { apiClient } from "../../../../roro_api/roroApiConfig.js";
 import { Description as DescriptionIcon } from "@mui/icons-material";
 import {
   Search as SearchIcon,
@@ -93,14 +92,8 @@ const ContractRegistrationList = () => {
     setFilteredData(filtered);
   };
 
-  /* --------------------------------------------------------------
-     3. DRAWER TOGGLE
-     -------------------------------------------------------------- */
   const toggleDrawer = (open) => () => setDrawerOpen(open);
 
-  /* --------------------------------------------------------------
-     4. LOADING / ERROR STATES
-     -------------------------------------------------------------- */
   if (loading) {
     return (
       <Box

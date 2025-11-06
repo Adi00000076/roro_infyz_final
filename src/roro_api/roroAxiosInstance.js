@@ -1,6 +1,6 @@
 // src/__api__/axiosInstance.js
 import axios from "axios";
-import API_CONFIG from "./config";
+import API_CONFIG from "./roroApiConfig";
 
 const axiosInstance = axios.create({
   baseURL: API_CONFIG.BASE_URL,

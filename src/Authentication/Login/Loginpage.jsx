@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { successToast, errorToast } from "../../exta_lookups/Toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import axiosInstance from "../../__api__/axiosInstance";
-import API_CONFIG from "../../__api__/Config";
+import axiosInstance from "../../roro_api/roroAxiosInstance";
+import API_CONFIG from "../../roro_api/roroApiConfig";
 import {
   Box,
   Card,

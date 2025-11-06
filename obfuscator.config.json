@@ -1,0 +1,10 @@
+{
+  "compact": true,
+  "controlFlowFlattening": false,
+  "disableConsoleOutput": true,
+  "identifierNamesGenerator": "hexadecimal",
+  "rotateStringArray": true
+}
+
+
+//  inspoect disable code writedn 
