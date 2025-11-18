@@ -16,8 +16,10 @@ axiosInstance.interceptors.request.use(
       try {
         const { token } = JSON.parse(auth);
         if (token) {
-          config.headers["X-Auth-Token"] = token;
+          config.headers["Authorization"] = `Bearer ${token}`;
+          
         }
+        console.log
       } catch (e) {
         console.error("Error parsing auth from sessionStorage:", e);
       }

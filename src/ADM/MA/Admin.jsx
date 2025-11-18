@@ -1,121 +1,130 @@
 import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   Box,
-  Button,
   TextField,
   InputAdornment,
-  Paper,
+  Button,
 } from "@mui/material";
+
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from "@mui/icons-material/Search";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CloseIcon from "@mui/icons-material/Close";
+import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
+import BuildCircleIcon from "@mui/icons-material/BuildCircle";
 
 const Admin = () => {
   const navigate = useNavigate();
 
   return (
-    <Box
-      sx={{
-      
-        width: "100%",
-        backgroundColor: "#f5f7fa",
-        fontFamily:
-          "system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif",
-        color: "#333",
-      }}
-    >
-      {/* 🔷 Top AppBar */}
-      <AppBar
-        position="static"
-        sx={{
-          backgroundColor: "#1976d2",
-          boxShadow: "none",
-        }}
-      >
+    <Box sx={{ p: 2 }}>
+      {/* Header */}
+      <AppBar position="static">
         <Toolbar
           sx={{
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
             gap: 2,
           }}
         >
-          {/* 🔙 Back + Title */}
+          {/* Left: Back + Title */}
           <Box display="flex" alignItems="center" gap={1}>
             <IconButton color="inherit" onClick={() => navigate(-1)}>
               <ArrowBackIcon />
             </IconButton>
-            <Typography variant="h6" fontWeight="bold">
+
+            <Typography variant="h6" fontWeight="600">
               Master Admin
             </Typography>
           </Box>
 
-          {/* 🔍 Search Field */}
+          {/* Center: Global Search */}
           <Box sx={{ flexGrow: 1, maxWidth: 350 }}>
             <TextField
               variant="outlined"
               size="small"
-              placeholder="Search..."
+              placeholder="Global Search..."
               fullWidth
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: "6px",
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": { borderColor: "#ddd" },
-                  "&:hover fieldset": { borderColor: "#1976d2" },
-                  "&.Mui-focused fieldset": { borderColor: "#1976d2" },
-                },
-              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#888" }} />
+                    <SearchIcon sx={{ color: "#555" }} />
                   </InputAdornment>
                 ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton size="small" sx={{ color: "#888" }}>
-                      <CloseIcon fontSize="small" />
-                    </IconButton>
-                  </InputAdornment>
-                ),
+              }}
+              sx={{
+                backgroundColor: "#fff",
+                borderRadius: 1,
               }}
             />
           </Box>
 
-         
+          {/* Right: Cancel button */}
+          <Button
+            variant="contained"
+            color="error"
+            startIcon={<CloseIcon />}
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </Button>
         </Toolbar>
       </AppBar>
-
-      {/* ⚙️ Main Content Area */}
-      <Box
-      
-      >
-        <Paper
-          
+      {/* Simple anchor-link menu */}
+      <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}>
+        <Link
+          to="/roro/MD/Service"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: "#1976d2",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
         >
-          <Button
-            component={Link}
-            title="Service"
-            to="/roro/MD/Service"
-            variant="contained"
-            sx={{
-              mt: 2,
-            //   textTransform: "none",
-            //   fontWeight: "bold",
-            //   borderRadius: "6px",
-            }}
-          >
-           Service 
-          </Button>
-        </Paper>
+          <HomeRepairServiceIcon style={{ marginRight: "8px" }} />
+          Service Master
+        </Link>
+        <Typography variant="h4" color="primary">
+          Services
+        </Typography>
+        <Link
+          to="/roro/MD/Activity"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: "#1976d2",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          <BuildCircleIcon style={{ marginRight: "8px" }} />
+          Operations Master
+        </Link>
+
+        <Typography variant="h4" color="primary">
+  Security
+        </Typography>
+        <Link
+          to="/roro/MD/CompanyDetailes"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            textDecoration: "none",
+            color: "#1976d2",
+            fontSize: "18px",
+            fontWeight: "500",
+          }}
+        >
+          <BuildCircleIcon style={{ marginRight: "8px" }} />
+        Company
+        </Link>
       </Box>
     </Box>
   );

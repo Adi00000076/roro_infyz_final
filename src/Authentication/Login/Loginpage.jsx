@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { successToast, errorToast } from "../../exta_lookups/Toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import axiosInstance from "../../roro_api/roroAxiosInstance";
-import API_CONFIG from "../../roro_api/roroApiConfig";
 import {
   Box,
   Card,
@@ -12,10 +10,12 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { motion } from "framer-motion";
 
 const LoginPage = () => {
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -37,18 +37,18 @@ const LoginPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.username || !form.password) {
+    if (!form.email || !form.password) {
       errorToast("Please fill in both fields.");
       return;
     }
 
     try {
-      const success = await login(form.username, form.password);
+      const success = await login(form.email, form.password);
       if (success) {
         successToast("Login successful!");
         navigate("/");
       } else {
-        errorToast("Invalid username or password.");
+        errorToast("Invalid email or password.");
       }
     } catch (err) {
       console.error(err);
@@ -132,12 +132,7 @@ const LoginPage = () => {
         ))}
 
         {/* ✨ Animated Welcome Text */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          style={{ textAlign: "center", zIndex: 2 }}
-        >
+        <div style={{ textAlign: "center", zIndex: 2 }}>
           <Typography
             variant="h4"
             sx={{
@@ -149,11 +144,7 @@ const LoginPage = () => {
             Welcome Back
           </Typography>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
-          >
+          <div>
             <Typography
               variant="h6"
               sx={{
@@ -166,8 +157,8 @@ const LoginPage = () => {
             >
               Infyz Terminal Operations Management System (iTOMS)
             </Typography>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </Box>
 
       {/* 🔐 Right Section (Login Form) */}
@@ -195,14 +186,14 @@ const LoginPage = () => {
               color="textSecondary"
               mb={3}
             >
-              Please enter your username and password
+              Please enter your email and password
             </Typography>
 
             <form onSubmit={handleSubmit}>
               <TextField
-                label="Username"
-                name="username"
-                value={form.username}
+                label="Email"
+                name="email"
+                value={form.email}
                 onChange={handleChange}
                 fullWidth
                 margin="normal"

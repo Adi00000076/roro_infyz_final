@@ -3,19 +3,18 @@
   "private": true,
   "version": "1.0.1",
   "type": "module",
-"scripts": {
-  "dev": "vite",
-  "dev:obf": "vite build --mode development && javascript-obfuscator dist --output dist --config obfuscator.config.json && vite preview --mode development",
-  "build": "vite build && javascript-obfuscator dist --output dist --config obfuscator.config.json",
-  "build:uat": "vite build --mode uat && javascript-obfuscator dist --output dist --config obfuscator.config.json",
-  "build:prod": "vite build --mode production && javascript-obfuscator dist --output dist --config obfuscator.config.json",
-  "preview": "vite preview",
-  "preview:uat": "vite preview --mode uat",
-  "preview:prod": "vite preview --mode production",
-  "lint": "eslint .",
-  "lint:fix": "eslint . --fix"
-},
-
+  "scripts": {
+    "dev": "vite",
+    "dev:obf": "vite build --mode development && javascript-obfuscator dist --output dist --config obfuscator.config.json && vite preview --mode development",
+    "build": "vite build && javascript-obfuscator dist --output dist --config obfuscator.config.json",
+    "build:uat": "vite build --mode uat && javascript-obfuscator dist --output dist --config obfuscator.config.json",
+    "build:prod": "vite build --mode production && javascript-obfuscator dist --output dist --config obfuscator.config.json",
+    "preview": "vite preview",
+    "preview:uat": "vite preview --mode uat",
+    "preview:prod": "vite preview --mode production",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -39,6 +38,7 @@
     "formik": "2.4.6",
     "framer-motion": "^12.23.24",
     "js-cookie": "^3.0.5",
+    "lucide-react": "^0.554.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.5",

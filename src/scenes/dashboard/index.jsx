@@ -34,6 +34,12 @@ const Dashboard = () => {
               fontSize: "14px",
               fontWeight: "bold",
               padding: "10px 20px",
+              borderRadius: "10px",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                background: "linear-gradient(135deg, #ff5164 0%, #ffa467 100%)",
+                transform: "scale(1.05)",
+              },
             }}
           >
             <DownloadOutlinedIcon sx={{ mr: "10px" }} />
@@ -50,96 +56,96 @@ const Dashboard = () => {
         gap="20px"
       >
         {/* ROW 1 */}
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="8,542"
-            subtitle="Cargo Units Handled"
-            progress="0.75"
-            increase="+12%"
-            icon={
+        {[
+          {
+            title: "8,542",
+            subtitle: "Cargo Units Handled",
+            progress: "0.75",
+            increase: "+12%",
+            icon: (
               <LocalShippingIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
-            }
-          />
-        </Box>
-
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="3,214"
-            subtitle="Containers on Berth"
-            progress="0.50"
-            increase="+9%"
-            icon={
+            ),
+          },
+          {
+            title: "3,214",
+            subtitle: "Containers on Berth",
+            progress: "0.50",
+            increase: "+9%",
+            icon: (
               <DirectionsBoatIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
-            }
-          />
-        </Box>
-
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="1,028"
-            subtitle="Vehicles Processed"
-            progress="0.65"
-            increase="+7%"
-            icon={
+            ),
+          },
+          {
+            title: "1,028",
+            subtitle: "Vehicles Processed",
+            progress: "0.65",
+            increase: "+7%",
+            icon: (
               <CommuteIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
-            }
-          />
-        </Box>
-
-        <Box
-          gridColumn="span 3"
-          backgroundColor={colors.primary[400]}
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-        >
-          <StatBox
-            title="5,612"
-            subtitle="Storage Units in Warehouse"
-            progress="0.85"
-            increase="+18%"
-            icon={
+            ),
+          },
+          {
+            title: "5,612",
+            subtitle: "Storage Units in Warehouse",
+            progress: "0.85",
+            increase: "+18%",
+            icon: (
               <WarehouseIcon
                 sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
               />
-            }
-          />
-        </Box>
+            ),
+          },
+        ].map((item, i) => (
+          <Box
+            key={i}
+            gridColumn="span 3"
+            backgroundColor={colors.primary[400]}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            sx={{
+              borderRadius: "12px",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                transform: "translateY(-6px)",
+                boxShadow: `0 6px 20px ${colors.greenAccent[700]}55`,
+                cursor: "pointer",
+              },
+            }}
+          >
+            <StatBox
+              title={item.title}
+              subtitle={item.subtitle}
+              progress={item.progress}
+              increase={item.increase}
+              icon={item.icon}
+            />
+          </Box>
+        ))}
 
         {/* ROW 2 */}
         <Box
           gridColumn="span 8"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          sx={{
+            borderRadius: "12px",
+            transition: "0.3s",
+            "&:hover": {
+              boxShadow: `0 4px 15px ${colors.greenAccent[700]}33`,
+            },
+          }}
         >
           <Box
             mt="25px"
             p="0 30px"
-            display="flex "
+            display="flex"
             justifyContent="space-between"
             alignItems="center"
           >
@@ -172,11 +178,15 @@ const Dashboard = () => {
           </Box>
         </Box>
 
+        {/* RECENT SHIP ARRIVALS */}
         <Box
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           overflow="auto"
+          sx={{
+            borderRadius: "12px",
+          }}
         >
           <Box
             display="flex"
@@ -197,6 +207,13 @@ const Dashboard = () => {
               alignItems="center"
               borderBottom={`4px solid ${colors.primary[500]}`}
               p="15px"
+              sx={{
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  backgroundColor: colors.primary[500],
+                  cursor: "pointer",
+                },
+              }}
             >
               <Box>
                 <Typography
@@ -228,6 +245,13 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           p="30px"
+          sx={{
+            borderRadius: "12px",
+            transition: "0.3s",
+            "&:hover": {
+              boxShadow: `0 4px 15px ${colors.greenAccent[700]}33`,
+            },
+          }}
         >
           <Typography variant="h5" fontWeight="600">
             Vessel Utilization
@@ -254,6 +278,13 @@ const Dashboard = () => {
           gridColumn="span 4"
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
+          sx={{
+            borderRadius: "12px",
+            transition: "0.3s",
+            "&:hover": {
+              boxShadow: `0 4px 15px ${colors.greenAccent[700]}33`,
+            },
+          }}
         >
           <Typography
             variant="h5"
@@ -272,6 +303,13 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           padding="30px"
+          sx={{
+            borderRadius: "12px",
+            transition: "0.3s",
+            "&:hover": {
+              boxShadow: `0 4px 15px ${colors.greenAccent[700]}33`,
+            },
+          }}
         >
           <Typography
             variant="h5"

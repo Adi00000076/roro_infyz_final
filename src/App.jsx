@@ -2,6 +2,7 @@ import { ColorModeContext, useMode } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SettingsProvider, useSettings } from "./context/SettingsContext";
+import { ClickLoggerProvider } from "./context/ClickLoggerContext";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
 
@@ -14,43 +15,31 @@ import Navigation from "./Navigation";
 import ErrorBoundary from "./roro_api/roroErrorBoundary.jsx";
 import ScrollToTop from "react-scroll-up";
 import { FaChevronUp } from "react-icons/fa";
-import { useEffect, useState } from "react";
 
 const AppContent = () => {
   const { settings } = useSettings();
   const [theme, colorMode] = useMode(settings || {});
-  const { isAuthenticated } = useAuth();
-  const [showInspectScreen, setShowInspectScreen] = useState(false);
+  const { isAuthenticated, loading } = useAuth();
 
-  useEffect(() => {
-    const handleContextMenu = (e) => {
-      e.preventDefault();
-      setShowInspectScreen(true);
-    };
-
-    const handleKeyDown = (e) => {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && e.key === "I") ||
-        (e.ctrlKey && e.shiftKey && e.key === "J") ||
-        (e.ctrlKey && e.shiftKey && e.key === "C") ||
-        (e.ctrlKey && e.key === "u")
-      ) {
-        e.preventDefault();
-        setShowInspectScreen(true);
-      }
-    };
-
-    document.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
-
- 
+  if (loading) {
+    return (
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            Loading...
+          </div>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -92,6 +81,7 @@ function App() {
   return (
     <ErrorBoundary>
       <HelmetProvider>
+        {/* <ClickLoggerProvider> */}
         <AuthProvider>
           <SettingsProvider>
             <AppContent />
@@ -124,6 +114,7 @@ function App() {
             </ScrollToTop>
           </SettingsProvider>
         </AuthProvider>
+        {/* </ClickLoggerProvider> */}
       </HelmetProvider>
     </ErrorBoundary>
   );

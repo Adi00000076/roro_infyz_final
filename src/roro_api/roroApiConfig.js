@@ -2,14 +2,14 @@
 
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:8082";
 
 const API_CONFIG = {
   BASE_URL,
   TIMEOUT: 10000,
   HEADERS: {
+    "Accept": "application/json",
     "Content-Type": "application/json",
-    Accept: "application/json",
   },
 };
 

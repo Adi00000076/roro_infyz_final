@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Loader from "./exta_lookups/Loader";
 
+
 // Lazy load components
 const Dashboard = lazy(() => import("./scenes/dashboard"));
 const Team = lazy(() => import("./scenes/team"));
@@ -21,6 +22,14 @@ const TariffGeneral = lazy(() =>
 const Admin = lazy(() => import("./ADM/MA/Admin"));
 const Service = lazy(() => import("./ADM/MA/Service/Service"));
 
+const Activity = lazy(() => import("./ADM/MA/Operations/Activity/Activity"));
+
+
+const CompanyDetailes = lazy(() => import("./ADM/MA/CompanyDetailes/CompanyDetailes"));
+
+
+
+
 const Navigation = () => {
   return (
     <Suspense fallback={<Loader />}>
@@ -39,6 +48,8 @@ const Navigation = () => {
         <Route path="/roro/MD" element={<Admin />} />
 
         <Route path="/roro/MD/Service" element={<Service />} />
+        <Route path="/roro/MD/Activity" element={<Activity />} />
+        <Route path="/roro/MD/CompanyDetailes" element={<CompanyDetailes />} />
       </Routes>
     </Suspense>
   );

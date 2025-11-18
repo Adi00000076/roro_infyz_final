@@ -3,24 +3,6 @@ import axiosInstance from "../roro_api/roroAxiosInstance";
 
 const AuthContext = createContext();
 
-// Helper functions for cookies
-const setCookie = (name, value, days = 7) => {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-};
-
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null;
-};
-
-const deleteCookie = (name) => {
-  document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
-};
-
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -28,15 +10,23 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Check for existing session on app load (e.g., from cookies)
+  // Check for existing session on app load (e.g., from sessionStorage)
   useEffect(() => {
-    const token = getCookie("authToken");
-    const userCookie = getCookie("authUser");
-    if (token) {
-      setIsAuthenticated(true);
-      setUser(userCookie ? JSON.parse(userCookie) : null);
+    const storedAuth = sessionStorage.getItem("auth");
+    if (storedAuth) {
+      try {
+        const { token } = JSON.parse(storedAuth);
+        if (token) {
+          setIsAuthenticated(true);
+          setUser({ username: JSON.parse(storedAuth).username });
+        }
+      } catch (e) {
+        console.error("Error parsing auth from sessionStorage:", e);
+      }
     }
+    setLoading(false);
   }, []);
 
   const login = async (username, password) => {
@@ -45,12 +35,27 @@ export const AuthProvider = ({ children }) => {
         username,
         password,
       });
-      const { token, user: responseUser } = response.data;
-      if (token) {
-        setCookie("authToken", token);
-        setCookie("authUser", JSON.stringify(responseUser || { username }));
+      const {
+        accessToken,
+        refreshToken,
+        tokenType,
+        expiresIn,
+        username: responseUsername,
+      } = response.data;
+      if (accessToken) {
+        // Store in sessionStorage to match axiosInstance
+        sessionStorage.setItem(
+          "auth",
+          JSON.stringify({
+            token: accessToken,
+            refreshToken,
+            tokenType,
+            expiresIn,
+            username: responseUsername,
+          })
+        );
         setIsAuthenticated(true);
-        setUser(responseUser || { username });
+        setUser({ username: responseUsername || username });
         return true;
       }
       return false;
@@ -63,8 +68,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
-    deleteCookie("authToken");
-    deleteCookie("authUser");
+    sessionStorage.removeItem("auth");
   };
 
   const value = {
@@ -72,6 +76,7 @@ export const AuthProvider = ({ children }) => {
     user,
     login,
     logout,
+    loading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
