@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router-dom";
 import { Suspense, lazy } from "react";
 import Loader from "./exta_lookups/Loader";
 
-
 // Lazy load components
 const Dashboard = lazy(() => import("./scenes/dashboard"));
 const Team = lazy(() => import("./scenes/team"));
@@ -24,11 +23,11 @@ const Service = lazy(() => import("./ADM/MA/Service/Service"));
 
 const Activity = lazy(() => import("./ADM/MA/Operations/Activity/Activity"));
 
+const CompanyDetailes = lazy(() =>
+  import("./ADM/MA/CompanyDetailes/CompanyDetailes")
+);
 
-const CompanyDetailes = lazy(() => import("./ADM/MA/CompanyDetailes/CompanyDetailes"));
-
-
-
+const Manifest = lazy(() => import("./roro/components/Manifest/Manifest"));
 
 const Navigation = () => {
   return (
@@ -37,6 +36,9 @@ const Navigation = () => {
         <Route path="/" element={<Dashboard />} />
         <Route path="/team" element={<Team />} />
         <Route path="/Custmer" element={<Custmer />} />
+
+        <Route path="/Custmer/Manifest" element={<Manifest />} />
+
         <Route path="/Comercial" element={<Comercial />} />
         <Route
           path="/ContractRegistrationList"

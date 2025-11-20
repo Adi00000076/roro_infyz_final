@@ -20,18 +20,10 @@ import { AiOutlineFileText, AiOutlineDollarCircle } from "react-icons/ai";
 import { MdAdminPanelSettings } from "react-icons/md";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   return (
     <MenuItem
       component={<Link to={to} />}
       active={selected === title}
-      style={{
-        color: colors.grey[100],
-        backgroundColor:
-          selected === title ? colors.primary[400] : "transparent",
-      }}
       onClick={() => setSelected(title)}
       icon={icon}
     >
@@ -42,14 +34,19 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 
 const SidebarComponent = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const { settings } = useSettings();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   return (
     <Box className="sidebar-container">
-      <Sidebar collapsed={isCollapsed} rootStyles={{ border: "none" }}>
+      <Sidebar
+        collapsed={isCollapsed}
+        rootStyles={{
+          border: "none",
+          backgroundColor: theme.palette.primary.main,
+        }}
+      >
         <Menu>
           {/* Collapse Toggle */}
           <MenuItem
@@ -57,7 +54,6 @@ const SidebarComponent = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             style={{
               margin: "10px 0 20px 0",
-              color: colors.grey[100],
               cursor: "pointer",
               background: "transparent",
             }}
@@ -69,11 +65,9 @@ const SidebarComponent = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  RORO-INFYZ
-                </Typography>
+                <Typography variant="h3">RORO-INFYZ</Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                  <FiMenu color={colors.grey[100]} />
+                  <FiMenu />
                 </IconButton>
               </Box>
             )}
@@ -104,11 +98,7 @@ const SidebarComponent = () => {
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
+            <Typography variant="h6" sx={{ m: "15px 0 5px 20px" }}>
               Commercial
             </Typography>
 

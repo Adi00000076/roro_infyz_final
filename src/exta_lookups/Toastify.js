@@ -1,33 +1,27 @@
 import { toast, Bounce } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Global toast styles for black background & white text
 const toastOptions = {
   position: "top-center",
-  autoClose: 3000,
+  autoClose: 2800,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
   draggable: true,
-  progress: undefined,
-  theme: "colored",
+  theme: "dark",
   transition: Bounce,
   style: {
-    backgroundColor: "#000", // 🔥 Black background
-    color: "#fff", // 🔥 White text
-    fontWeight: "bold",
-    borderRadius: "8px",
+    background: "rgba(0,0,0,0.85)",
+    color: "#eaf6ff",
+    backdropFilter: "blur(8px)",
+    border: "1px solid rgba(0, 140, 255, 0.4)",
+    boxShadow: "0 0 12px rgba(0,140,255,0.45)",
+    fontWeight: 600,
+    letterSpacing: "0.5px",
+    borderRadius: "10px",
   },
 };
 
-export const successToast = (message) => {
-  toast.success(message, toastOptions);
-};
-
-export const errorToast = (message) => {
-  toast.error(message, toastOptions);
-};
-
-export const failureToast = (message) => {
-  toast.error(message, toastOptions);
-};
+export const successToast = (msg) => toast.success(msg, toastOptions);
+export const errorToast = (msg) => toast.error(msg, toastOptions);
+export const failureToast = (msg) => toast.error(msg, toastOptions);

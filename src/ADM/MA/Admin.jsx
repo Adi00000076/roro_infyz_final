@@ -1,48 +1,27 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Box,
-  TextField,
-  InputAdornment,
-  Button,
-} from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography, Box, TextField, InputAdornment, Button, Grid } from "@mui/material";
 
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import SearchIcon from "@mui/icons-material/Search";
-import CloseIcon from "@mui/icons-material/Close";
-import HomeRepairServiceIcon from "@mui/icons-material/HomeRepairService";
-import BuildCircleIcon from "@mui/icons-material/BuildCircle";
+// React Icons
+import { IoArrowBack, IoSearch, IoClose, IoBuild, IoHammer, IoBusiness } from "react-icons/io5";
 
 const Admin = () => {
   const navigate = useNavigate();
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box >
       {/* Header */}
       <AppBar position="static">
-        <Toolbar
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            gap: 2,
-          }}
-        >
-          {/* Left: Back + Title */}
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+          {/* Back + Title */}
           <Box display="flex" alignItems="center" gap={1}>
             <IconButton color="inherit" onClick={() => navigate(-1)}>
-              <ArrowBackIcon />
+              <IoArrowBack size={22} />
             </IconButton>
-
-            <Typography variant="h6" fontWeight="600">
-              Master Admin
-            </Typography>
+            <Typography variant="h6" fontWeight="600">Master Admin</Typography>
           </Box>
 
-          {/* Center: Global Search */}
+          {/* Search */}
           <Box sx={{ flexGrow: 1, maxWidth: 350 }}>
             <TextField
               variant="outlined"
@@ -52,79 +31,60 @@ const Admin = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#555" }} />
+                    <IoSearch size={18} style={{ color: "#555" }} />
                   </InputAdornment>
-                ),
+                )
               }}
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: 1,
-              }}
+              sx={{ backgroundColor: "#fff", borderRadius: 1 }}
             />
           </Box>
 
-          {/* Right: Cancel button */}
           <Button
             variant="contained"
             color="error"
-            startIcon={<CloseIcon />}
+            startIcon={<IoClose size={18} />}
             onClick={() => navigate(-1)}
           >
             Cancel
           </Button>
         </Toolbar>
       </AppBar>
-      {/* Simple anchor-link menu */}
-      <Box sx={{ mt: 3, display: "flex", flexDirection: "column", gap: 2 }}>
-        <Link
-          to="/roro/MD/Service"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            textDecoration: "none",
-            color: "#1976d2",
-            fontSize: "18px",
-            fontWeight: "500",
-          }}
-        >
-          <HomeRepairServiceIcon style={{ marginRight: "8px" }} />
-          Service Master
-        </Link>
-        <Typography variant="h4" color="primary">
-          Services
-        </Typography>
-        <Link
-          to="/roro/MD/Activity"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            textDecoration: "none",
-            color: "#1976d2",
-            fontSize: "18px",
-            fontWeight: "500",
-          }}
-        >
-          <BuildCircleIcon style={{ marginRight: "8px" }} />
-          Operations Master
-        </Link>
 
-        <Typography variant="h4" color="primary">
-  Security
-        </Typography>
-        <Link
-          to="/roro/MD/CompanyDetailes"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            textDecoration: "none",
-            color: "#1976d2",
-            fontSize: "18px",
-            fontWeight: "500",
-          }}
-        >
-          <BuildCircleIcon style={{ marginRight: "8px" }} />
-        Company
-        </Link>
+      {/* GRID layout with ICON + TEXT only (no cards) */}
+      <Box sx={{ mt: 2 }}>
+        <Grid container spacing={4}>
+
+          {/* Service */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Link to="/roro/MD/Service" style={{ textDecoration: "none", color: "inherit" }}>
+              <Box display="flex" alignItems="center" gap={1}>
+                <IoBuild size={28} color="#1976d2" />
+                <Typography variant="h5" fontWeight={600} color="primary">Service Master</Typography>
+              </Box>
+            </Link>
+          </Grid>
+
+          {/* Operations */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Link to="/roro/MD/Activity" style={{ textDecoration: "none", color: "inherit" }}>
+              <Box display="flex" alignItems="center" gap={1}>
+                <IoHammer size={28} color="#2e7d32" />
+                <Typography variant="h5" fontWeight={600} color="primary">Operations Master</Typography>
+              </Box>
+            </Link>
+          </Grid>
+
+          {/* Company */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Link to="/roro/MD/CompanyDetailes" style={{ textDecoration: "none", color:"inherit" }}>
+              <Box display="flex" alignItems="center" gap={1}>
+                <IoBusiness size={28} color="#ef6c00" />
+                <Typography variant="h5" fontWeight={600} color="primary">Company</Typography>
+              </Box>
+            </Link>
+          </Grid>
+
+        </Grid>
       </Box>
     </Box>
   );

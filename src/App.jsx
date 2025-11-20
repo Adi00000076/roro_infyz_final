@@ -5,6 +5,7 @@ import { SettingsProvider, useSettings } from "./context/SettingsContext";
 import { ClickLoggerProvider } from "./context/ClickLoggerContext";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
+import Footer from "./scenes/global/Footer";
 
 import Loginpage from "./Authentication/Login/Loginpage";
 import { ToastContainer } from "react-toastify";
@@ -58,18 +59,21 @@ const AppContent = () => {
         <CssBaseline />
         <div className="app" dir={settings.direction}>
           <Sidebar />
-
           <main
             className="content"
             style={{
               width: settings.layoutWidth === "fluid" ? "100%" : "1200px",
               margin: settings.layoutWidth === "fluid" ? "0" : "0 auto",
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
             }}
           >
             <Topbar />
             <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
               <Navigation />
             </div>
+            <Footer />
           </main>
         </div>
       </ThemeProvider>

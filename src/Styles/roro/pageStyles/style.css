@@ -1,60 +1,88 @@
+/* MUI Color Variables */
+:root {
+  --mui-grey-500: #666666;
+  --mui-primary-500: #141b2d;
+  --mui-blue-accent-500: #6870fa;
+  --mui-blue-accent-600: #868dfb;
+  --mui-red-accent-500: #db4f4a;
+  --mui-text-primary: #141b2d;
+  --mui-background-default: #fcfcfc;
+}
+
 .sidebar-container {
   height: 100vh;
-  display: flex; font-family: 'Inter var', sans-serif;
+  display: flex;
+  font-family: 'Inter var', sans-serif;
   font-style: normal;
   font-weight: 600;
-  color: rgb(29, 38, 48);
-  font-size: 16px;
-  line-height: 22px;
+  color: var(--mui-text-primary);
+  font-size: 1rem;
+  line-height: 1.375rem;
 }
 
 .sidebar-container .ps-sidebar-container {
   height: 100vh;
-  overflow-y: auto; font-family: 'Inter var', sans-serif;
+  overflow-y: auto;
+  font-family: 'Inter var', sans-serif;
   font-style: normal;
   font-weight: 600;
-  color: rgb(29, 38, 48);
-  font-size: 16px;
-  line-height: 22px;
+  color: var(--mui-text-primary);
+  font-size: 1rem;
+  line-height: 1.375rem;
 }
 
 .ps-menu-button {
-  padding: 8px 35px 8px 20px;
-  border-radius: 4px;
-  margin: 2px 8px;
-  transition: all 0.2s ease-in-out;
+  padding: 0.5rem 2.1875rem 0.5rem 1.25rem;
+  border-radius: 8px;
+  margin: 0.125rem 0.5rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   outline: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .ps-menu-button:hover {
-  transform: translateX(2px);
+  transform: translateX(4px) scale(1.02);
+  background-color: rgba(104, 112, 250, 0.1);
 }
 
 .ps-menu-button:focus {
-  box-shadow: 0 0 0 2px #6870fa;
+  box-shadow: 0 0 0 3px rgba(104, 112, 250, 0.3);
+  outline: none;
 }
 
 .ps-menu-button:focus-visible {
-  box-shadow: 0 0 0 2px #6870fa;
-  outline: 2px solid #868dfb;
+  box-shadow: 0 0 0 3px rgba(104, 112, 250, 0.3);
+  outline: 2px solid var(--mui-blue-accent-600);
   outline-offset: 2px;
 }
 
 .ps-menu-button:target {
-  box-shadow: 0 0 0 2px #db4f78;
+  box-shadow: 0 0 0 3px rgba(219, 79, 120, 0.3);
 }
 
 .ps-menu-button--active {
+  background-color: rgba(104, 112, 250, 0.15);
+  color: var(--mui-blue-accent-500);
+  font-weight: 700;
 }
 
 .ps-menu-button--active:hover {
+  background-color: rgba(104, 112, 250, 0.2);
+  transform: translateX(4px) scale(1.02);
 }
 
 .ps-menu-button--active:focus {
+  box-shadow: 0 0 0 3px rgba(104, 112, 250, 0.4);
 }
 
 .ps-menu-button--active:focus-visible {
+  box-shadow: 0 0 0 3px rgba(104, 112, 250, 0.4);
+  outline: 2px solid var(--mui-blue-accent-600);
+  outline-offset: 2px;
 }
 
 .ps-menu-button--active:target {
+  box-shadow: 0 0 0 3px rgba(219, 79, 120, 0.3);
 }

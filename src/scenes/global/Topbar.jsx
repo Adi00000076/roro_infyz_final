@@ -93,7 +93,16 @@ const Topbar = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      p={2}
+      sx={{
+        backgroundColor: theme.palette.primary.main,
+        boxShadow: theme.shadows[2],
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      }}
+    >
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
@@ -106,15 +115,15 @@ const Topbar = () => {
       </Box>
 
       <Box display="flex">
-        <IconButton onClick={handleWindowsMenuOpen}>
+        <IconButton onClick={handleWindowsMenuOpen} sx={{ color: "white" }}>
           <BsWindows />
         </IconButton>
 
-        <IconButton>
+        <IconButton sx={{ color: "white" }}>
           <FaLanguage />
         </IconButton>
 
-        <IconButton onClick={toggleFullscreen}>
+        <IconButton onClick={toggleFullscreen} sx={{ color: "white" }}>
           {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </IconButton>
         <IconButton
@@ -124,6 +133,7 @@ const Topbar = () => {
               settings.themeMode === "dark" ? "light" : "dark"
             )
           }
+          sx={{ color: "white" }}
         >
           {settings.themeMode === "dark" ? (
             <DarkModeOutlinedIcon />
@@ -131,13 +141,13 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <IconButton>
+        <IconButton sx={{ color: "white" }}>
           <NotificationsOutlinedIcon />
         </IconButton>
-        <IconButton onClick={handleSettingsMenuOpen}>
+        <IconButton onClick={handleSettingsMenuOpen} sx={{ color: "white" }}>
           <SettingsOutlinedIcon />
         </IconButton>
-        <IconButton onClick={handleProfileMenuOpen}>
+        <IconButton onClick={handleProfileMenuOpen} sx={{ color: "white" }}>
           <PersonOutlinedIcon />
         </IconButton>
         <Menu
