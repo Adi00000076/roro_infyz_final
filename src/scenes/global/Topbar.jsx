@@ -14,10 +14,11 @@ import {
   Divider,
   Grid,
   InputBase,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
-import { tokens } from "../../theme";
+// theme tokens available in `theme` if needed
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -41,8 +42,8 @@ import FontDownloadOutlinedIcon from "@mui/icons-material/FontDownloadOutlined";
 
 const Topbar = () => {
   const theme = useTheme();
-  const colorTokens = tokens(theme.palette.mode);
-  const { logout } = useAuth();
+  // theme tokens available via tokens(mode) if needed
+  const { logout, user } = useAuth();
   const { settings, updateSetting } = useSettings();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -104,6 +105,9 @@ const Topbar = () => {
     "--roro-icon-settings": "var(--roro-btn-glow)",
     "--roro-icon-user": theme.palette.mode === "dark" ? "#C4B5FD" : "#7C3AED",
   };
+
+  // computed JS color for menu (Menu is rendered in a portal, so CSS vars on topbar do not propagate)
+  const userIconColor = theme.palette.mode === "dark" ? "#C4B5FD" : "#7C3AED";
 
   return (
     <Box
@@ -201,9 +205,23 @@ const Topbar = () => {
         <IconButton
           onClick={(e) => setAnchorEl(e.currentTarget)}
           className={styles.iconBtn}
-          sx={{ color: "var(--roro-icon-user)" }}
+          sx={{
+            color: "var(--roro-icon-user)",
+            background: "#fff",
+            border: "2px solid #7C3AED",
+            boxShadow: "0 2px 8px rgba(124, 58, 237, 0.10)",
+            p: 0.5,
+            mr: 8,
+            transition: "background 0.2s, border 0.2s",
+            "&:hover": {
+              background: "#f3e8ff",
+              border: "2px solid #5b21b6",
+            },
+          }}
         >
-          <PersonOutlinedIcon sx={{ color: "var(--roro-icon-user)" }} />
+          <PersonOutlinedIcon
+            sx={{ color: "var(--roro-icon-user)", fontSize: 28 }}
+          />
         </IconButton>
       </Box>
 
@@ -218,10 +236,49 @@ const Topbar = () => {
             mt: 1,
             boxShadow: "0 8px 32px rgba(0,0,0,0.6)",
             border: "1px solid #333",
+            minWidth: 220,
           },
         }}
       >
-        <MenuItem onClick={() => setAnchorEl(null)}>Profile</MenuItem>
+        <Box
+          sx={{
+            px: 2,
+            py: 2.25,
+            display: "flex",
+            alignItems: "center",
+            gap: 1.25,
+          }}
+        >
+          <Avatar sx={{ bgcolor: userIconColor, width: 40, height: 40 }}>
+            {user && user.username
+              ? user.username.charAt(0).toUpperCase()
+              : "U"}
+          </Avatar>
+          <Box>
+            <Typography sx={{ fontWeight: 700 }}>
+              {user?.username || "User"}
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Account
+            </Typography>
+          </Box>
+        </Box>
+        <Divider />
+        <MenuItem
+          component={Link}
+          to="/profile"
+          onClick={() => setAnchorEl(null)}
+        >
+          Profile
+        </MenuItem>
+        <MenuItem
+          component={Link}
+          to="/account"
+          onClick={() => setAnchorEl(null)}
+        >
+          Account Settings
+        </MenuItem>
+        <Divider />
         <MenuItem
           onClick={() => {
             logout();
