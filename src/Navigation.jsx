@@ -27,7 +27,7 @@ const CompanyDetailes = lazy(() =>
   import("./ADM/MA/CompanyDetailes/CompanyDetailes")
 );
 
-const Manifest = lazy(() => import("./roro/components/Manifest/Manifest"));
+const Manifest = lazy(() => import("./roro/components/Comercial/Manifest/Manifest"));
 
 const Navigation = () => {
   return (

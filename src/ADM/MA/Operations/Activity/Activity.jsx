@@ -120,7 +120,7 @@ const Activity = () => {
 
   /* ---------------- DataGrid Columns ---------------- */
   const columns = [
-    { field: "actTypeCode", headerName: "Code", flex: 1 },
+    // { field: "actTypeCode", headerName: "Code", flex: 1 },
     { field: "description", headerName: "Description", flex: 1.5 },
     { field: "itomsDescription", headerName: "ITOMS Description", flex: 1.5 },
     { field: "fActive", headerName: "Active", width: 120 },

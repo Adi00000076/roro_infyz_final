@@ -73,7 +73,7 @@ const AppContent = () => {
             <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
               <Navigation />
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </main>
         </div>
       </ThemeProvider>

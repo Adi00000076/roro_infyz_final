@@ -1,242 +1,182 @@
+// src/pages/RoRoLogin.jsx
 import React, { useState, useEffect } from "react";
+import LoginPage, {
+  Email,
+  Password,
+  Submit,
+  Title,
+  TitleLogin,
+  Logo,
+  InnerBox,
+} from "@react-login-page/page10";
+
+// Background images
+import LoginImg from "@react-login-page/page10/bg.png";
+import LoginInnerBgImg from "@react-login-page/page10/inner-bg.jpg";
+
+// MUI Anchor Icon (Premium maritime look)
+import AnchorIcon from "@mui/icons-material/Anchor";
+
 import { successToast, errorToast } from "../../exta_lookups/Toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-import loginImage from "../../../resources/outside/login2.jpg";
-
-// React Icons
-import { FiLock, FiEye, FiEyeOff } from "react-icons/fi";
-
-import {
-  Box,
-  Card,
-  CardContent,
-  TextField,
-  Typography,
-  Button,
-} from "@mui/material";
-
-const LoginPage = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
+const RoRoLogin = () => {
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  // Redirect if already logged in
   useEffect(() => {
     const auth = sessionStorage.getItem("auth");
     if (auth) {
       try {
-        const { token } = JSON.parse(auth);
-        if (token) navigate("/");
-      } catch {}
+        const parsed = JSON.parse(auth);
+        if (parsed?.token) {
+          navigate("/", { replace: true });
+        }
+      } catch (e) {
+        console.error("Invalid auth data");
+      }
     }
   }, [navigate]);
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.email || !form.password)
-      return errorToast("Please fill all fields");
+
+    if (!form.email || !form.password) {
+      return errorToast("Please enter email and password");
+    }
 
     try {
       const success = await login(form.email, form.password);
+
       if (success) {
-        successToast("Login successful!");
+        successToast("Welcome back, Captain!");
         navigate("/");
       } else {
         errorToast("Invalid email or password");
       }
-    } catch {
-      errorToast("Server error. Try again.");
+    } catch (err) {
+      errorToast("Login failed. Please try again.");
     }
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
+    <LoginPage
+      style={{
         height: "100vh",
-        width: "100%",
-        overflow: "hidden",
-        fontFamily: "Inter, system-ui, Roboto",
+        backgroundImage: `url(${LoginImg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        fontFamily: '"Satoshi", "Inter", system-ui, sans-serif',
       }}
     >
-      {/* Left Image Section */}
-      <Box
-        sx={{
-          flex: 1.2,
-          position: "relative",
-          animation: "fadeIn 1.4s ease-out",
-          "@keyframes fadeIn": {
-            "0%": { opacity: 0 },
-            "100%": { opacity: 1 },
-          },
-        }}
-      >
-        <img
-          src={loginImage}
-          alt="Login Visual"
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            filter: "brightness(0.88)",
-          }}
-        />
+      {/* Inner glass background */}
+      <InnerBox style={{ backgroundImage: `url(${LoginInnerBgImg})` }} />
 
+      {/* Hide default title */}
+      <Title visible={false} />
+
+      {/* Optional: Custom Title (uncomment if you want text back) */}
+      {/* <TitleLogin>
+        <h1 style={{ fontSize: "3.5rem", fontWeight: 900, color: "#F7C948", margin: 0 }}>
+          RoRo Portal
+        </h1>
+      </TitleLogin> */}
+
+      {/* Premium Floating Anchor Icon */}
+      <Logo>
         <div
           style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            background: "rgba(0,0,0,0.25)",
-            top: 0,
-            left: 0,
-          }}
-        />
-      </Box>
-
-      {/* Right Form Section */}
-      <Box
-        sx={{
-          flex: 1,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          background: "linear-gradient(135deg, #f7f9fc, #eef2f8)",
-          animation: "fadeSlideLeft 1.1s ease-out",
-          "@keyframes fadeSlideLeft": {
-            "0%": { opacity: 0, transform: "translateX(-40px)" },
-            "100%": { opacity: 1, transform: "translateX(0)" },
-          },
-        }}
-      >
-        <Card
-          sx={{
-            width: 420,
-            padding: 4,
-            borderRadius: 4,
-            boxShadow: "0 12px 30px rgba(0,0,0,0.15)",
-            position: "relative",
-            animation: "cardPop 0.9s ease-out",
-            "@keyframes cardPop": {
-              "0%": { opacity: 0, transform: "scale(0.92)" },
-              "100%": { opacity: 1, transform: "scale(1)" },
-            },
+            width: 110,
+            height: 110,
+            background: "linear-gradient(135deg, #F7C948 0%, #E69A00 100%)",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 20px 60px rgba(247,201,72,0.6)",
+            border: "8px solid rgba(255,255,255,0.3)",
+            animation: "float 6s ease-in-out infinite",
           }}
         >
-          {/* Floating Lock Icon */}
-          <Box
+          <AnchorIcon
             sx={{
-              position: "absolute",
-              top:0,
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "#fff",
-              width: 70,
-              height: 70,
-              borderRadius: "50%",
-              boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              zIndex: 10,
+              fontSize: 72,
+              color: "#000",
+              filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.3))",
             }}
-          >
-            <FiLock style={{ fontSize: 32, color: "#2C5364" }} />
-          </Box>
+          />
+        </div>
+      </Logo>
 
-          <CardContent>
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              textAlign="center"
-              sx={{
-                mt: 4,
-                mb: 1,
-                background: "linear-gradient(90deg,#0F2027,#2C5364)",
-                WebkitBackgroundClip: "text",
-                color: "transparent",
-              }}
-            >
-              Login to Your Account
-            </Typography>
+      {/* Email Field */}
+      <Email
+        label="Email Address"
+        placeholder="admin@gmail.com"
+        name="email"
+        value={form.email}
+        onChange={handleChange}
+      />
 
-            <Typography
-              variant="body2"
-              textAlign="center"
-              sx={{ color: "gray", mb: 3 }}
-            >
-              Please enter your email and password
-            </Typography>
+      {/* Password Field */}
+      <Password
+        label="Password"
+        placeholder="Enter your password"
+        name="password"
+        value={form.password}
+        onChange={handleChange}
+      />
 
-            <form onSubmit={handleSubmit}>
-              {/* Email */}
-              <TextField
-                fullWidth
-                label="Email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                margin="normal"
-              />
+      {/* Premium Golden Submit Button */}
+      <Submit onClick={handleSubmit}>
+        <button
+          type="submit"
+          style={{
+            width: "100%",
+            padding: "16px 0",
+            fontSize: "1.25rem",
+            fontWeight: 800,
+            background: "linear-gradient(135deg, #F7C948 0%, #E69A00 100%)",
+            color: "#000",
+            border: "none",
+            borderRadius: "16px",
+            cursor: "pointer",
+            boxShadow: "0 12px 40px rgba(247,201,72,0.5)",
+            transition: "all 0.3s ease",
+            marginTop: "10px",
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = "translateY(-5px)";
+            e.target.style.boxShadow = "0 20px 50px rgba(247,201,72,0.7)";
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = "translateY(0)";
+            e.target.style.boxShadow = "0 12px 40px rgba(247,201,72,0.5)";
+          }}
+        >
+          Sign In Securely
+        </button>
+      </Submit>
 
-              {/* Password + Show/Hide Icon */}
-              <Box sx={{ position: "relative", mt: 2 }}>
-                <TextField
-                  fullWidth
-                  label="Password"
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                />
-
-                <Box
-                  sx={{
-                    position: "absolute",
-                    right: 12,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    cursor: "pointer",
-                    opacity: 0.7,
-                  }}
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
-                </Box>
-              </Box>
-
-              {/* Login Button */}
-              <Button
-                fullWidth
-                type="submit"
-                sx={{
-                  mt: 3,
-                  py: 1.4,
-                  borderRadius: 2,
-                  fontWeight: 600,
-                  background: "linear-gradient(90deg,#0F2027,#203A43,#2C5364)",
-                  color: "#fff",
-                  transition: "0.3s",
-                  "&:hover": {
-                    transform: "translateY(-2px)",
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.25)",
-                  },
-                }}
-              >
-                LOGIN
-              </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </Box>
-    </Box>
+      {/* Floating animation for the anchor */}
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-20px); }
+        }
+      `}</style>
+    </LoginPage>
   );
 };
 
-export default LoginPage;
+export default RoRoLogin;
