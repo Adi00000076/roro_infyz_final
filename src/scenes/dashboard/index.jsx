@@ -16,38 +16,20 @@ import ProgressCircle from "../../components/ProgressCircle";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  // Sunset Horizon palette (authoritative colors)
+  const sunset = {
+    start: "#F97316",
+    mid: "#FB923C",
+    end: "#FECACA",
+    btnGlow: "#FF6A3C",
+    chartLight: "#FFD7C2",
+    chartAccent: "#FFB84D",
+  };
 
   return (
-    <Box m="20px">
+    <Box >
       {/* HEADER */}
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Header
-          title="RORO OPERATIONS DASHBOARD"
-          subtitle="Overview of Container & Vehicle Handling Performance"
-        />
-
-        <Box>
-          <Button
-            sx={{
-              background: "linear-gradient(135deg, #ffa467 0%, #ff5164 100%)",
-              color: colors.grey[100],
-              fontSize: "14px",
-              fontWeight: "bold",
-              padding: "10px 20px",
-              borderRadius: "10px",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                background: "linear-gradient(135deg, #ff5164 0%, #ffa467 100%)",
-                transform: "scale(1.05)",
-              },
-            }}
-          >
-            <DownloadOutlinedIcon sx={{ mr: "10px" }} />
-            Download Reports
-          </Button>
-        </Box>
-      </Box>
-
+      
       {/* GRID & CHARTS */}
       <Box
         display="grid"
@@ -63,9 +45,7 @@ const Dashboard = () => {
             progress: "0.75",
             increase: "+12%",
             icon: (
-              <LocalShippingIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
+              <LocalShippingIcon sx={{ color: sunset.mid, fontSize: "26px" }} />
             ),
           },
           {
@@ -75,7 +55,7 @@ const Dashboard = () => {
             increase: "+9%",
             icon: (
               <DirectionsBoatIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
+                sx={{ color: sunset.mid, fontSize: "26px" }}
               />
             ),
           },
@@ -84,11 +64,7 @@ const Dashboard = () => {
             subtitle: "Vehicles Processed",
             progress: "0.65",
             increase: "+7%",
-            icon: (
-              <CommuteIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
-            ),
+            icon: <CommuteIcon sx={{ color: sunset.mid, fontSize: "26px" }} />,
           },
           {
             title: "5,612",
@@ -96,9 +72,7 @@ const Dashboard = () => {
             progress: "0.85",
             increase: "+18%",
             icon: (
-              <WarehouseIcon
-                sx={{ color: colors.greenAccent[600], fontSize: "26px" }}
-              />
+              <WarehouseIcon sx={{ color: sunset.mid, fontSize: "26px" }} />
             ),
           },
         ].map((item, i) => (
@@ -160,7 +134,7 @@ const Dashboard = () => {
               <Typography
                 variant="h3"
                 fontWeight="bold"
-                color={colors.greenAccent[500]}
+                sx={{ color: sunset.mid }}
               >
                 24,678 Units
               </Typography>
@@ -168,7 +142,7 @@ const Dashboard = () => {
             <Box>
               <IconButton>
                 <DownloadOutlinedIcon
-                  sx={{ fontSize: "26px", color: colors.greenAccent[500] }}
+                  sx={{ fontSize: "26px", color: sunset.mid }}
                 />
               </IconButton>
             </Box>
@@ -216,11 +190,7 @@ const Dashboard = () => {
               }}
             >
               <Box>
-                <Typography
-                  color={colors.greenAccent[500]}
-                  variant="h5"
-                  fontWeight="600"
-                >
+                <Typography color={sunset.mid} variant="h5" fontWeight="600">
                   {transaction.txId}
                 </Typography>
                 <Typography color={colors.grey[100]}>
@@ -229,9 +199,13 @@ const Dashboard = () => {
               </Box>
               <Box color={colors.grey[100]}>{transaction.date}</Box>
               <Box
-                backgroundColor={colors.greenAccent[500]}
                 p="5px 10px"
                 borderRadius="4px"
+                sx={{
+                  background: `linear-gradient(90deg, ${sunset.chartLight}, ${sunset.chartAccent})`,
+                  color: "#083344",
+                  fontWeight: 600,
+                }}
               >
                 {transaction.cost} TEUs
               </Box>

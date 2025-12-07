@@ -1,0 +1,74 @@
+:root {
+  --roro-sidebar: #071331;
+  --roro-glass-start: #f97316;
+  --roro-glass-mid: #fb923c;
+  --roro-glass-end: #fecaca;
+  --roro-glass-accent: rgba(255, 255, 255, 0.12);
+  --roro-btn-glow: #ff6a3c;
+  --roro-chart-peach: #ffd7c2;
+  --roro-chart-amber: #ffb84d;
+  --roro-text-light: #f8f7f5;
+  --roro-muted: rgba(248, 247, 245, 0.6);
+  --roro-glass-blur: 12px;
+  --roro-border: rgba(255, 255, 255, 0.08);
+}
+
+.footer {
+  width: 100%;
+  margin-top: auto;
+  padding: 24px 32px;
+  color: var(--roro-text-light);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.03) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  backdrop-filter: blur(var(--roro-glass-blur));
+  -webkit-backdrop-filter: blur(var(--roro-glass-blur));
+  border-top: 1px solid var(--roro-border);
+  box-shadow: 0 -8px 30px rgba(7, 19, 49, 0.45);
+  position: relative;
+}
+
+.footerInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  color: var(--roro-text-light);
+}
+
+.meta {
+  color: var(--roro-muted);
+  font-size: 0.9rem;
+}
+
+/* subtle glowing accent line */
+.accentLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--roro-glass-start),
+    var(--roro-glass-mid),
+    var(--roro-glass-end)
+  );
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.12);
+  opacity: 0.95;
+}
+
+.smallHighlight {
+  color: var(--roro-glass-mid);
+  font-weight: 600;
+}

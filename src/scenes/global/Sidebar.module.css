@@ -1,0 +1,128 @@
+:root {
+  --roro-sidebar-start: #061428;
+  --roro-sidebar-end: #071331;
+  --roro-glass-start: #f97316;
+  --roro-glass-mid: #fb923c;
+  --roro-glass-end: #fecaca;
+  --roro-btn-glow: #ff6a3c;
+  --roro-text-light: #ededed;
+  --roro-muted: rgba(237, 237, 237, 0.45);
+  --roro-border: rgba(255, 255, 255, 0.04);
+}
+
+.sidebar {
+  height: 100vh;
+  width: 240px;
+  background: linear-gradient(
+    180deg,
+    var(--roro-sidebar-start),
+    var(--roro-sidebar-end)
+  );
+  color: var(--roro-text-light);
+
+  box-shadow: 8px 0 30px rgba(2, 6, 23, 0.55);
+  border-right: 1px solid var(--roro-border);
+  backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 1200;
+}
+
+/* Ensure react-pro-sidebar internal wrappers don't show a different background */
+.sidebar .ps-sidebar-root,
+.sidebar .ps-sidebar-container,
+.sidebar .ps-sidebar-inner {
+  /* make internal wrappers inherit the outer gradient to avoid seams */
+  background: inherit !important;
+  width: 200px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.sidebar {
+  overflow: hidden;
+}
+
+.brandWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brandText {
+  font-size: 1.2rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--roro-glass-start),
+    var(--roro-glass-mid)
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.iconBtn {
+  color: var(--roro-muted);
+  transition: color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.iconBtn:hover {
+  color: var(--roro-text-light);
+  transform: translateY(-2px);
+}
+
+.avatarWrap {
+  text-align: center;
+  padding: 8px 12px 18px 12px;
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+}
+
+.menuItem {
+  color: var(--roro-muted);
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.menuItem:hover,
+.menuItem.ps-active {
+  color: var(--roro-text-light) !important;
+  background: linear-gradient(
+    90deg,
+    rgba(249, 115, 22, 0.12),
+    rgba(251, 146, 60, 0.08)
+  );
+  box-shadow: 0 10px 30px rgba(249, 115, 22, 0.06);
+  border-radius: 10px;
+}
+
+.menuItem.ps-active::before,
+.menuItem:hover::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--roro-glass-start),
+    var(--roro-glass-mid)
+  );
+  border-radius: 3px;
+}
+
+.sectionTitle {
+  color: rgba(237, 237, 237, 0.38);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.footerSpacing {
+  padding: 18px 12px 22px 12px;
+}
